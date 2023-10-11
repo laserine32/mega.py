@@ -14,6 +14,8 @@ import binascii
 import tempfile
 import shutil
 
+from IPython.display import clear_output
+
 import requests
 from tenacity import retry, wait_exponential, retry_if_exception_type
 
@@ -734,8 +736,10 @@ class Mega:
                 mac_str = mac_encryptor.encrypt(encryptor.encrypt(block))
 
                 file_info = os.stat(temp_output_file.name)
+                print(temp_output_file.name+' - '+str(self.humansize(file_info.st_size))+' of '+str(self.humansize(file_size))+' downloaded')
                 logger.info('%s of %s downloaded', file_info.st_size,
                             file_size)
+                clear_output()
             file_mac = str_to_a32(mac_str)
             # check mac integrity
             if (file_mac[0] ^ file_mac[1],
@@ -744,6 +748,15 @@ class Mega:
             output_path = Path(dest_path + file_name)
             shutil.move(temp_output_file.name, output_path)
             return output_path
+
+    def humansize(self, nbytes):
+        suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+        i = 0
+        while nbytes >= 1024 and i < len(suffixes)-1:
+            nbytes /= 1024.
+            i += 1
+        f = ('%.2f' % nbytes).rstrip('0').rstrip('.')
+        return '%s %s' % (f, suffixes[i]) 
 
     def upload(self, filename, dest=None, dest_filename=None):
         # determine storage node
