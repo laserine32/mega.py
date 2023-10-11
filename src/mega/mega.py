@@ -14,8 +14,6 @@ import binascii
 import tempfile
 import shutil
 
-from IPython.display import clear_output
-
 import requests
 from tenacity import retry, wait_exponential, retry_if_exception_type
 
@@ -739,7 +737,6 @@ class Mega:
                 print(temp_output_file.name+' - '+str(self.humansize(file_info.st_size))+' of '+str(self.humansize(file_size))+' downloaded')
                 logger.info('%s of %s downloaded', file_info.st_size,
                             file_size)
-                clear_output()
             file_mac = str_to_a32(mac_str)
             # check mac integrity
             if (file_mac[0] ^ file_mac[1],
