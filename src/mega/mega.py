@@ -735,12 +735,8 @@ class Mega:
                 mac_str = mac_encryptor.encrypt(encryptor.encrypt(block))
 
                 file_info = os.stat(temp_output_file.name)
-                textoutput = file_name+' - '+str(self.humansize(file_info.st_size))+' of '+str(self.humansize(file_size))+' downloaded'
-                if tali:
-                  print(textoutput)
-                else:
-                  textoutput = textoutput.ljust(500, ' ')
-                  print(textoutput, end="\r")
+                textoutput = str(self.humansize(file_info.st_size))+' of '+str(self.humansize(file_size))+' downloaded - '+file_name
+                print(textoutput)  
                 logger.info('%s of %s downloaded', file_info.st_size,
                             file_size)
             file_mac = str_to_a32(mac_str)
