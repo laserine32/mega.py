@@ -630,7 +630,7 @@ class Mega:
         nodes = self.get_files()
         return self.get_folder_link(nodes[node_id])
 
-    def download_url(self, url, dest_path=None, dest_filename=None):
+    def download_url(self, url, dest_path=None, dest_filename=None, tail=False):
         """
         Download a file by it's public url
         """
@@ -643,6 +643,7 @@ class Mega:
             dest_path=dest_path,
             dest_filename=dest_filename,
             is_public=True,
+            tali = tali
         )
 
     def _download_file(self,
@@ -651,7 +652,7 @@ class Mega:
                        dest_path=None,
                        dest_filename=None,
                        is_public=False,
-                       file=None):
+                       file=None, tali=False):
         if file is None:
             if is_public:
                 file_key = base64_to_a32(file_key)
@@ -734,7 +735,12 @@ class Mega:
                 mac_str = mac_encryptor.encrypt(encryptor.encrypt(block))
 
                 file_info = os.stat(temp_output_file.name)
-                print(file_name+' - '+str(self.humansize(file_info.st_size))+' of '+str(self.humansize(file_size))+' downloaded')
+                textoutput = file_name+' - '+str(self.humansize(file_info.st_size))+' of '+str(self.humansize(file_size))+' downloaded'
+                if tali:
+                  print(textoutput)
+                else:
+                  textoutput = textoutput.ljust(500, ' ')
+                  print(textoutput, end="\r")
                 logger.info('%s of %s downloaded', file_info.st_size,
                             file_size)
             file_mac = str_to_a32(mac_str)
