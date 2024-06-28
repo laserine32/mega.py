@@ -735,7 +735,8 @@ class Mega:
                 mac_str = mac_encryptor.encrypt(encryptor.encrypt(block))
 
                 file_info = os.stat(temp_output_file.name)
-                textoutput = str(self.humansize(file_info.st_size))+' of '+str(self.humansize(file_size))+' downloaded - '+file_name
+                percenta = file_info.st_size / file_size * 100
+                textoutput = str(percenta) + '% ~ ' + str(self.humansize(file_info.st_size))+' of '+str(self.humansize(file_size))+' downloaded - '+file_name
                 print(textoutput)  
                 logger.info('%s of %s downloaded', file_info.st_size,
                             file_size)
