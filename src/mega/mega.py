@@ -736,7 +736,8 @@ class Mega:
 
                 file_info = os.stat(temp_output_file.name)
                 percenta = file_info.st_size / file_size * 100
-                textoutput = str(percenta) + '% ~ ' + str(self.humansize(file_info.st_size))+' of '+str(self.humansize(file_size))+' downloaded - '+file_name
+                pppp = '{:.2f}%'.format(percenta)
+                textoutput = pppp + ' ~ ' + str(self.humansize(file_info.st_size))+' of '+str(self.humansize(file_size))+' downloaded - '+file_name
                 print(textoutput)  
                 logger.info('%s of %s downloaded', file_info.st_size,
                             file_size)
